@@ -8,10 +8,10 @@ jwt:
 
 spring:
   datasource:
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@localhost:1521:xe
-    password: neeraj439
-    username: neerajdb
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysqlneerajdb-1.czhjvwtgzkoh.ap-south-1.rds.amazonaws.com:3306/frcs
+    password: neeraj123
+    username: admin
   hibernate:
     hdm2ddl:
       auto: validate
@@ -19,6 +19,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 
 
