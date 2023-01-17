@@ -3,6 +3,7 @@ package com.frcsprep.resources;
 import com.frcsprep.entity.AnswerOptions;
 import com.frcsprep.entity.Questions;
 import com.frcsprep.entity.Topics;
+import com.frcsprep.pojo.TopicsRequest;
 import com.frcsprep.services.AnswerServices;
 import com.frcsprep.services.QuestionServices;
 import com.frcsprep.services.TopicServices;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -65,6 +63,13 @@ public class FrscResource {
             @Size(max = 2, message = "should be max 2 character") Integer topicId){
         Topics topics = topicServices.getTopicById(Long.valueOf(topicId));
         return new ResponseEntity<Topics>(topics, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/topics", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Topics>> insertTopics(@RequestBody TopicsRequest topics){
+            List<Topics> insertedTopics = topicServices.insertTopics(topics);
+        return new ResponseEntity<List<Topics>>(insertedTopics, HttpStatus.OK);
     }
 
 }

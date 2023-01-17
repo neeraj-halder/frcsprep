@@ -36,7 +36,7 @@ public class JwtService {
     public String generateToken(Map<String,Object> extraClaims,FrcsMem frscMem){
         return Jwts.builder().setClaims(extraClaims).setSubject(frscMem.getUserName())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
     private Claims getAllClaimsFromToken(String token) {

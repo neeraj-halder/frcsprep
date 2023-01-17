@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TopicsRepo extends CrudRepository<Topics,Long> {
+    Topics findByTopic(String topic);
 }
