@@ -18,9 +18,8 @@ public class AnswerServices {
     @Autowired
     private AnswerOptionsRepo answerOptionsRepo;
 
-    public List<AnswerOptions> getAnswerOptionsByIds(List<String> answerOptionIds){
-        List<Long> listofLong = answerOptionIds.stream().map(s -> Long.parseLong(s.trim())).collect(Collectors.toList());
-        List<AnswerOptions> listOfAnswerOptions = answerOptionsRepo.findByAnswerOptionIdIn(listofLong);
+    public List<AnswerOptions> getAllAnswerOptions(){
+        List<AnswerOptions> listOfAnswerOptions = (List<AnswerOptions>) answerOptionsRepo.findAll();
         return  listOfAnswerOptions;
     }
 

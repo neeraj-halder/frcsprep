@@ -56,12 +56,10 @@ public class FrscResource {
         return new ResponseEntity<AnswerOptions>(answerOptions, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/answers/{answerOptionIds}", method = RequestMethod.GET,
+    @RequestMapping(value = "/answers", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AnswerOptions>> getAnswerOption(
-            @PathVariable("answerOptionIds")
-            @Size(max = 2, message = "should be max 2 character") List<String> answerOptionIds){
-        List<AnswerOptions> answerOptionslist = answerServices.getAnswerOptionsByIds(answerOptionIds);
+    public ResponseEntity<List<AnswerOptions>> getAnswerOptions(){
+        List<AnswerOptions> answerOptionslist = answerServices.getAllAnswerOptions();
         return new ResponseEntity<List<AnswerOptions>>(answerOptionslist, HttpStatus.OK);
     }
 
@@ -79,6 +77,13 @@ public class FrscResource {
             @Size(max = 2, message = "should be max 2 character") Integer topicId){
         Topics topics = topicServices.getTopicById(Long.valueOf(topicId));
         return new ResponseEntity<Topics>(topics, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/topics", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Topics>> getAllTopics(){
+        List<Topics> topics = topicServices.getAllTopics();
+        return new ResponseEntity<List<Topics>>(topics, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/topics", method = RequestMethod.POST,

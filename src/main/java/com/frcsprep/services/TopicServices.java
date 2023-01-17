@@ -24,6 +24,11 @@ public class TopicServices {
         return null;
     }
 
+    public List<Topics> getAllTopics(){
+        List<Topics> topics = (List<Topics>) topicsRepo.findAll();
+        return topics;
+    }
+
     public List<Topics> insertTopics(TopicsRequest topics){
 
        List<Topics> list =  topics.getTopics().stream().filter(k->{
