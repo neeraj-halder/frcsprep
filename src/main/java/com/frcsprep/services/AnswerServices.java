@@ -1,7 +1,9 @@
 package com.frcsprep.services;
 
 import com.frcsprep.entity.AnswerOptions;
+import com.frcsprep.entity.Topics;
 import com.frcsprep.repo.AnswerOptionsRepo;
+import com.frcsprep.repo.AnswerRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,24 @@ public class AnswerServices {
         return null;
     }
 
+    public List<AnswerOptions> insertAnswers(AnswerRequest answers){
+
+        List<AnswerOptions> list =  answers.getAnswers().stream().filter(k->{
+            AnswerOptions answerOptions = answerOptionsRepo.findByAnswer(k);
+            if(answerOptions != null && answerOptions.getAnswer() != null){
+                return false;
+            }
+            return true;
+        }).map(n->{
+            AnswerOptions ao = new AnswerOptions();
+            ao.setAnswer(n);
+            AnswerOptions savedAo = answerOptionsRepo.save(ao);
+            return savedAo;
+        }).collect(Collectors.toList());
+
+        return list;
+
+    }
     public List<AnswerOptions> getAnswerOptionByIds(List<Long> answerOptionIds){
         List<AnswerOptions> answerOptionsList = answerOptionsRepo.findByAnswerOptionIdIn(answerOptionIds);
         return answerOptionsList;

@@ -5,6 +5,7 @@ import com.frcsprep.entity.Questions;
 import com.frcsprep.entity.Topics;
 import com.frcsprep.pojo.QuestionRequest;
 import com.frcsprep.pojo.TopicsRequest;
+import com.frcsprep.repo.AnswerRequest;
 import com.frcsprep.services.AnswerServices;
 import com.frcsprep.services.QuestionServices;
 import com.frcsprep.services.TopicServices;
@@ -61,6 +62,13 @@ public class FrscResource {
             @PathVariable("answerOptionIds")
             @Size(max = 2, message = "should be max 2 character") List<String> answerOptionIds){
         List<AnswerOptions> answerOptionslist = answerServices.getAnswerOptionsByIds(answerOptionIds);
+        return new ResponseEntity<List<AnswerOptions>>(answerOptionslist, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/answers", method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<AnswerOptions>> insertAnswers(@RequestBody AnswerRequest answers){
+        List<AnswerOptions> answerOptionslist = answerServices.insertAnswers(answers);
         return new ResponseEntity<List<AnswerOptions>>(answerOptionslist, HttpStatus.OK);
     }
 

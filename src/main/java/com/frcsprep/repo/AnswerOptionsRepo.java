@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AnswerOptionsRepo extends CrudRepository<AnswerOptions, Integer> {
     List<AnswerOptions> findByAnswerOptionIdIn(List<Long> answerOptionIds);
+    AnswerOptions findByAnswer(String answer);
 }
