@@ -1,6 +1,7 @@
 package com.frcsprep.services;
 
 import com.frcsprep.entity.Questions;
+import com.frcsprep.pojo.QuestionRequest;
 import com.frcsprep.repo.QuestionsRepo;
 import com.frcsprep.utils.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,26 @@ public class QuestionServices {
 
         }
         return null;
+    }
+
+    public Questions insertQuestion(QuestionRequest qr){
+        Questions q = questionsRepo.findByQuestion(qr.getQuestion());
+        if(q == null){
+            Questions savedQ = new Questions();
+            savedQ.setQuestion(qr.getQuestion());
+            savedQ.setAnswerOptions(qr.getAnswerOptions());
+            savedQ.setTopicId(qr.getTopicId());
+            savedQ.setCorrectAnswer(String.valueOf(qr.getCorrectAnswer()));
+
+            Questions insertedQ = questionsRepo.save(savedQ);
+            return insertedQ;
+        }else{
+            q.setAnswerOptions(qr.getAnswerOptions());
+            q.setTopicId(qr.getTopicId());
+            q.setCorrectAnswer(String.valueOf(qr.getCorrectAnswer()));
+            q = questionsRepo.save(q);
+        }
+
+        return q;
     }
 }
