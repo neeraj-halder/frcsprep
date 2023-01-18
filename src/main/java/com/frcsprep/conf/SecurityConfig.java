@@ -4,6 +4,7 @@ import com.frcsprep.filter.TokenRequestFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,9 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig extends AbstractSecurityWebApplicationInitializer {
 
+    @Value("${application.security.enabled:false}")
+    private boolean securityDisabled;
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -50,17 +54,31 @@ public class SecurityConfig extends AbstractSecurityWebApplicationInitializer {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf().disable()
-                .cors().and()
-                .authorizeHttpRequests()
-                .requestMatchers("/frscprep/auth/**","/home/hello").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        if(securityDisabled) {
+            httpSecurity.csrf().disable()
+                    .cors().and()
+                    .authorizeHttpRequests()
+                    .requestMatchers("/frscprep/auth/**", "/home/hello").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .authenticationProvider(authenticationProvider())
+                    .addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        } else{
+            httpSecurity.csrf().disable()
+                    .cors().and()
+                    .authorizeHttpRequests()
+                    .requestMatchers("/frscprep/auth/**", "/home/hello").permitAll()
+                    .anyRequest().permitAll()
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                    .authenticationProvider(authenticationProvider())
+                    .addFilterBefore(tokenRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        }
 
         return  httpSecurity.build();
     }

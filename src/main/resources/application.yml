@@ -44,5 +44,7 @@ logging:
             DispatcherServlet: debug
 
 
-
+application:
+    security:
+      enabled: true
            
